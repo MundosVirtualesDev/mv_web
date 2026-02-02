@@ -1,0 +1,126 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Container from "../../components/ui/Container.astro";
+import Button from "../../components/ui/Button.astro";
+import Chip from "../../components/ui/Chip.astro";
+import ProjectCard from "../../components/cards/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services
+    .filter((s) => s.data.area === "efectivo")
+    .map((s) => ({ params: { slug: s.data.slug } }));
+}
+
+const { slug } = Astro.params;
+const services = await getCollection("services");
+const service = services.find((s) => s.data.area === "efectivo" && s.data.slug === slug);
+if (!service) throw new Error("Servicio no encontrado");
+
+const projectsAll = await getCollection("projects");
+
+const related = projectsAll
+  .filter((p) => p.data.area === "efectivo")
+  .map((p) => {
+    const sr = new Set(p.data.serviceRefs ?? []);
+    const mySlug = service.data.slug;
+    const scoreSr = sr.has(mySlug) ? 3 : 0;
+
+    const tagsP = new Set((p.data.tags ?? []).map((t) => t.toLowerCase()));
+    const tagsS = new Set((service.data.capabilities ?? []).map((t) => t.toLowerCase()));
+    let inter = 0;
+    tagsS.forEach((t) => { if (tagsP.has(t)) inter += 1; });
+
+    return { p, score: scoreSr + inter };
+  })
+  .sort((a,b)=> b.score - a.score)
+  .slice(0, 3)
+  .map((x)=>x.p);
+---
+<PageLayout
+  title={`${service.data.title} | Gestión del Efectivo | Mundos Virtuales`}
+  description={service.data.summary}
+  active="cash"
+>
+  <section class="page-hero">
+    <Container>
+      <p class="small">Gestión del Efectivo / Servicio</p>
+      <h1 class="h1">{service.data.title}</h1>
+      <p class="p">{service.data.summary}</p>
+      <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+        <Button href="/contacto" variant="primary" tone="blue">Solicitar propuesta</Button>
+        <Button href="/proyectos?area=efectivo" variant="secondary">Ver proyectos</Button>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+        {(service.data.capabilities ?? []).map((c) => <Chip tone="blue">{c}</Chip>)}
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <div class="grid g2" style="gap: 18px;">
+        <article class="card" style="padding:18px;">
+          <h2 class="h2">Qué hacemos</h2>
+          <div class="p" style="color: rgba(255,255,255,.84); margin-top: 10px;">
+            <service.Content />
+          </div>
+        </article>
+
+        <article class="card" style="padding:18px;">
+          <h2 class="h2">Casos típicos</h2>
+          {service.data.useCases?.length ? (
+            <ul style="margin: 10px 0 0; padding-left: 18px; color: rgba(255,255,255,.72); line-height: 1.7;">
+              {service.data.useCases.map((u) => <li>{u}</li>)}
+            </ul>
+          ) : <p class="p">Agrega aquí casos típicos.</p>}
+
+          {service.data.bullets?.length ? (
+            <>
+              <h3 class="h3" style="margin-top: 14px;">Incluye</h3>
+              <ul style="margin: 8px 0 0; padding-left: 18px; color: rgba(255,255,255,.72); line-height: 1.7;">
+                {service.data.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            </>
+          ) : null}
+        </article>
+      </div>
+    </Container>
+
+    <style>
+      .g2{ grid-template-columns: 1fr 1fr; }
+      @media (max-width: 980px){
+        .g2{ grid-template-columns: 1fr; }
+      }
+    </style>
+  </section>
+
+  <section class="section">
+    <Container>
+      <h2 class="h2">Proyectos relacionados</h2>
+      <div class="grid g3" style="margin-top:16px;">
+        {related.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </Container>
+
+    <style>
+      .g3{ grid-template-columns: repeat(3,1fr); }
+      @media (max-width: 980px){
+        .g3{ grid-template-columns: 1fr; }
+      }
+    </style>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div class="card" style="padding:18px; border-color: rgba(82,116,217,.25); background: rgba(82,116,217,.07); display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div>
+          <h3 class="h3" style="margin:0 0 6px;">¿Necesitas una propuesta?</h3>
+          <p class="p">Escríbenos y coordinamos el alcance.</p>
+        </div>
+        <Button href="/contacto" variant="primary" tone="blue">Hablemos</Button>
+      </div>
+    </Container>
+  </section>
+</PageLayout>

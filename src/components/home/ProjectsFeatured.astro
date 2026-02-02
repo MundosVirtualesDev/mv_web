@@ -1,0 +1,30 @@
+---
+import Container from "../ui/Container.astro";
+import ProjectCard from "../cards/ProjectCard.astro";
+import Button from "../ui/Button.astro";
+
+const { projects } = Astro.props;
+---
+<section class="section">
+  <Container>
+    <div class="row">
+      <div>
+        <h2 class="h2">Proyectos destacados</h2>
+        <p class="p">Casos seleccionados de automatización industrial y gestión del efectivo.</p>
+      </div>
+      <div class="row__cta">
+        <Button href="/proyectos" variant="secondary">Ver todos</Button>
+      </div>
+    </div>
+
+    <div class="grid pg">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .row{ display:flex; align-items:flex-end; justify-content:space-between; gap: 12px; flex-wrap: wrap; }
+  .pg{ grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+  @media (max-width: 980px){ .pg{ grid-template-columns: 1fr; } }
+</style>

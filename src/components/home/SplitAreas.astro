@@ -1,0 +1,46 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+---
+<section class="section">
+  <Container>
+    <div class="grid split">
+      <article class="card split__card split__card--y">
+        <div>
+          <h2 class="h2">Automatización Industrial</h2>
+          <ul class="list">
+            <li>Integración PLC/HMI y control</li>
+            <li>Robótica de alto desempeño</li>
+            <li>Mantenimiento y soporte en planta</li>
+          </ul>
+        </div>
+        <Button href="/automatizacion-industrial" variant="primary" tone="yellow">Explorar Automatización</Button>
+      </article>
+
+      <article class="card split__card split__card--b">
+        <div>
+          <h2 class="h2">Gestión del Efectivo</h2>
+          <ul class="list">
+            <li>Back Office y procesamiento</li>
+            <li>Front Office y autoservicio</li>
+            <li>Soporte técnico y continuidad</li>
+          </ul>
+        </div>
+        <Button href="/gestion-del-efectivo" variant="primary" tone="blue">Explorar Gestión del Efectivo</Button>
+      </article>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .split{ grid-template-columns: 1fr 1fr; }
+  .split__card{ padding: 22px; display:flex; flex-direction:column; justify-content:space-between; gap: 18px; min-height: 240px; }
+  .split__card--y{ border-color: rgba(254,209,0,.25); background: rgba(254,209,0,.06); }
+  .split__card--b{ border-color: rgba(82,116,217,.25); background: rgba(82,116,217,.07); }
+
+  .list{ margin: 0; padding-left: 18px; color: rgba(255,255,255,.72); line-height: 1.7; }
+
+  @media (max-width: 900px){
+    .split{ grid-template-columns: 1fr; }
+  }
+</style>

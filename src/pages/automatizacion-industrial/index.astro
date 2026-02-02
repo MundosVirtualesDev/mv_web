@@ -1,0 +1,98 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Container from "../../components/ui/Container.astro";
+import Button from "../../components/ui/Button.astro";
+import ServiceCard from "../../components/cards/ServiceCard.astro";
+import ProjectCard from "../../components/cards/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const services = (await getCollection("services"))
+  .filter((s) => s.data.area === "automatizacion")
+  .sort((a,b)=>a.data.order-b.data.order);
+
+const projects = (await getCollection("projects"))
+  .filter((p) => p.data.area === "automatizacion")
+  .sort((a, b) => (b.data.date ?? "0000-00-00").localeCompare(a.data.date ?? "0000-00-00"))
+  .slice(0, 3);
+---
+<PageLayout
+  title="Automatización Industrial | Mundos Virtuales"
+  description="Automatización industrial y robótica."
+  active="auto"
+>
+  <section class="page-hero">
+    <Container>
+      <h1 class="h1">Automatización Industrial y Robótica</h1>
+      <p class="p">Ingeniería e integración para aumentar productividad, seguridad y disponibilidad.</p>
+      <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+        <Button href="/contacto" variant="primary" tone="yellow">Cotizar proyecto</Button>
+        <Button href="/proyectos?area=automatizacion" variant="secondary">Ver proyectos</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <h2 class="h2">Servicios</h2>
+      <div class="grid g4" style="margin-top:16px;">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <h2 class="h2">Cómo trabajamos</h2>
+      <div class="grid g3" style="margin-top:16px;">
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">1) Levantamiento</h3>
+          <p class="p">Diagnóstico, requerimientos y riesgos operacionales.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">2) Ingeniería e integración</h3>
+          <p class="p">Diseño, implementación y pruebas controladas.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">3) Puesta en marcha + soporte</h3>
+          <p class="p">Comisionamiento, capacitación y postventa.</p>
+        </article>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+          <h2 class="h2">Proyectos relacionados</h2>
+          <p class="p">Casos recientes del área.</p>
+        </div>
+        <Button href="/proyectos?area=automatizacion" variant="secondary">Ver todos</Button>
+      </div>
+      <div class="grid g3" style="margin-top:16px;">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div class="card" style="padding:18px; border-color: rgba(254,209,0,.25); background: rgba(254,209,0,.06); display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap:wrap;">
+        <div>
+          <h3 class="h3" style="margin:0 0 6px;">¿Necesitas automatizar una línea o mejorar disponibilidad?</h3>
+          <p class="p">Conversemos y armemos una propuesta.</p>
+        </div>
+        <Button href="/contacto" variant="primary" tone="yellow">Hablemos</Button>
+      </div>
+    </Container>
+  </section>
+
+  <style>
+    .g4{ grid-template-columns: repeat(4,1fr); }
+    .g3{ grid-template-columns: repeat(3,1fr); }
+    @media (max-width: 980px){
+      .g4{ grid-template-columns: repeat(2,1fr); }
+      .g3{ grid-template-columns: 1fr; }
+    }
+  </style>
+</PageLayout>

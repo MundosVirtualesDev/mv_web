@@ -1,0 +1,124 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import Container from "../../components/ui/Container.astro";
+import Button from "../../components/ui/Button.astro";
+import ServiceCard from "../../components/cards/ServiceCard.astro";
+import ProjectCard from "../../components/cards/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const services = (await getCollection("services"))
+  .filter((s) => s.data.area === "efectivo")
+  .sort((a,b)=>a.data.order-b.data.order);
+
+const projects = (await getCollection("projects"))
+  .filter((p) => p.data.area === "efectivo")
+  .sort((a, b) => (b.data.date ?? "0000-00-00").localeCompare(a.data.date ?? "0000-00-00"))
+  .slice(0, 3);
+---
+<PageLayout
+  title="Gestión del Efectivo | Mundos Virtuales"
+  description="Soluciones para optimizar, asegurar y automatizar procesos de manejo de efectivo."
+  active="cash"
+>
+  <section class="page-hero">
+    <Container>
+      <h1 class="h1">Gestión del Efectivo</h1>
+      <p class="p">Soluciones para optimizar, asegurar y automatizar procesos, con foco en continuidad operativa.</p>
+      <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+        <Button href="/contacto" variant="primary" tone="blue">Solicitar propuesta</Button>
+        <Button href="/proyectos?area=efectivo" variant="secondary">Ver proyectos</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <h2 class="h2">Servicios</h2>
+      <div class="grid g4" style="margin-top:16px;">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <h2 class="h2">Beneficios clave</h2>
+      <div class="grid g3" style="margin-top:16px;">
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Continuidad operativa</h3>
+          <p class="p">Diseño orientado a disponibilidad y tiempos de respuesta.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Confiabilidad y control</h3>
+          <p class="p">Procesos trazables, consistentes y auditables.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Productividad</h3>
+          <p class="p">Reducción de tiempos, errores y reprocesos.</p>
+        </article>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section compact">
+    <Container>
+      <h2 class="h2">Soluciones típicas</h2>
+      <div class="grid g2" style="margin-top:16px;">
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Optimización de flujo</h3>
+          <p class="p">Estandarización, control y reducción de variabilidad operacional.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Automatización de procesos</h3>
+          <p class="p">Reducción de errores y tiempos mediante procesos definidos.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Soporte y continuidad</h3>
+          <p class="p">Mantenimiento y soporte técnico para operación crítica.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Integración</h3>
+          <p class="p">Conexión con sistemas existentes cuando aplique.</p>
+        </article>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+          <h2 class="h2">Proyectos relacionados</h2>
+          <p class="p">Casos recientes del área.</p>
+        </div>
+        <Button href="/proyectos?area=efectivo" variant="secondary">Ver todos</Button>
+      </div>
+      <div class="grid g3" style="margin-top:16px;">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div class="card" style="padding:18px; border-color: rgba(82,116,217,.25); background: rgba(82,116,217,.07); display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap:wrap;">
+        <div>
+          <h3 class="h3" style="margin:0 0 6px;">¿Buscas mejorar disponibilidad y control?</h3>
+          <p class="p">Conversemos y armemos una propuesta.</p>
+        </div>
+        <Button href="/contacto" variant="primary" tone="blue">Hablemos</Button>
+      </div>
+    </Container>
+  </section>
+
+  <style>
+    .g4{ grid-template-columns: repeat(4,1fr); }
+    .g3{ grid-template-columns: repeat(3,1fr); }
+    .g2{ grid-template-columns: repeat(2,1fr); }
+    @media (max-width: 980px){
+      .g4{ grid-template-columns: repeat(2,1fr); }
+      .g3{ grid-template-columns: 1fr; }
+      .g2{ grid-template-columns: 1fr; }
+    }
+  </style>
+</PageLayout>

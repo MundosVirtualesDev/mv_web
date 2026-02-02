@@ -1,0 +1,166 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { active = "" } = Astro.props;
+
+const links = [
+  { href: "/automatizacion-industrial", label: "Automatización Industrial", key: "auto" },
+  { href: "/gestion-del-efectivo", label: "Gestión del Efectivo", key: "cash" },
+  { href: "/proyectos", label: "Proyectos", key: "projects" },
+  { href: "/quienes-somos", label: "Quiénes Somos", key: "about" },
+  { href: "/contacto", label: "Contacto", key: "contact" }
+];
+---
+<header class="hdr">
+  <Container class="hdr__in">
+    <a class="brand" href="/">
+      <span class="brand__mark">MV</span>
+      <span class="brand__name">Mundos Virtuales</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      {links.map((l) => (
+        <a class={`nav__a ${active === l.key ? "is-active" : ""}`} href={l.href}>
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="cta">
+      <Button href="/contacto" variant="primary" tone="yellow">Cotizar / Hablemos</Button>
+      <button class="burger" aria-label="Abrir menú" aria-expanded="false" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </Container>
+
+  <div class="drawer" data-drawer hidden>
+    <Container class="drawer__in">
+      <div class="drawer__top">
+        <Button href="/contacto" variant="primary" tone="yellow">Cotizar / Hablemos</Button>
+        <button class="drawer__close" aria-label="Cerrar menú" data-close>✕</button>
+      </div>
+
+      <div class="drawer__links">
+        {links.map((l) => (
+          <a class="drawer__a" href={l.href}>{l.label}</a>
+        ))}
+      </div>
+    </Container>
+  </div>
+</header>
+
+<script>
+  const burger = document.querySelector("[data-burger]");
+  const drawer = document.querySelector("[data-drawer]");
+  const closeBtn = document.querySelector("[data-close]");
+
+  function open() {
+    drawer.hidden = false;
+    burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    drawer.hidden = true;
+    burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  burger?.addEventListener("click", () => {
+    const expanded = burger.getAttribute("aria-expanded") === "true";
+    expanded ? close() : open();
+  });
+  closeBtn?.addEventListener("click", close);
+  drawer?.addEventListener("click", (e) => {
+    if (e.target === drawer) close();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer && !drawer.hidden) close();
+  });
+</script>
+
+<style>
+  .hdr{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13,13,13,.72);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.10);
+  }
+  .hdr__in{ display:flex; align-items:center; justify-content:space-between; padding: 14px 0; gap: 16px; }
+  .brand{ display:flex; align-items:center; gap: 10px; }
+  .brand__mark{
+    width: 36px; height: 36px; border-radius: 12px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    display:grid; place-items:center;
+    font-weight: 800;
+    letter-spacing: .02em;
+  }
+  .brand__name{ font-weight: 700; color: rgba(255,255,255,.88); }
+
+  .nav{ display:flex; gap: 14px; align-items:center; }
+  .nav__a{
+    font-size: 14px;
+    color: rgba(255,255,255,.78);
+    padding: 8px 10px;
+    border-radius: 12px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .nav__a:hover{ background: rgba(255,255,255,.06); color: rgba(255,255,255,.92); }
+  .nav__a.is-active{ background: rgba(254,209,0,.10); border: 1px solid rgba(254,209,0,.25); }
+
+  .cta{ display:flex; align-items:center; gap: 12px; }
+  .burger{
+    width: 42px; height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    display:none;
+    flex-direction: column;
+    justify-content:center;
+    gap: 6px;
+    padding: 0 12px;
+  }
+  .burger span{
+    height: 2px;
+    background: rgba(255,255,255,.82);
+    border-radius: 2px;
+    display:block;
+  }
+
+  .drawer{
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    display: grid;
+    align-items: start;
+    padding-top: 70px;
+  }
+  .drawer__in{
+    background: rgba(13,13,13,.95);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.45);
+  }
+  .drawer__top{ display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+  .drawer__close{
+    width: 42px; height: 42px; border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.88);
+    font-size: 18px;
+  }
+  .drawer__links{ display:flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+  .drawer__a{
+    padding: 12px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+
+  @media (max-width: 980px){
+    .nav{ display:none; }
+    .burger{ display:flex; }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import Container from "../ui/Container.astro";
+---
+<section class="section compact">
+  <Container>
+    <h2 class="h2">Propuesta de valor</h2>
+    <div class="grid vp">
+      <article class="card vp__c">
+        <h3 class="h3">Respuesta rápida y cumplimiento</h3>
+        <p class="p">Priorizamos continuidad operativa con atención clara y seguimiento.</p>
+      </article>
+      <article class="card vp__c">
+        <h3 class="h3">Seguridad como estándar</h3>
+        <p class="p">Diseño e integración considerando seguridad operacional desde el inicio.</p>
+      </article>
+      <article class="card vp__c">
+        <h3 class="h3">Postventa y soporte continuo</h3>
+        <p class="p">Acompañamiento técnico para mantener performance y disponibilidad.</p>
+      </article>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .vp{ grid-template-columns: repeat(3, 1fr); margin-top: 14px; }
+  .vp__c{ padding: 18px; }
+  @media (max-width: 980px){ .vp{ grid-template-columns: 1fr; } }
+</style>

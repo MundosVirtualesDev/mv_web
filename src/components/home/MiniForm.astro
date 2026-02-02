@@ -1,0 +1,93 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+
+const { tone = "yellow" } = Astro.props;
+---
+<section class="section">
+  <Container>
+    <div class={`card mf mf--${tone}`}>
+      <div class="mf__left">
+        <h2 class="h2">Hablemos</h2>
+        <p class="p">Cuéntanos en una frase tu necesidad y te contactamos.</p>
+        <p class="small">Campos obligatorios: nombre, correo y mensaje.</p>
+      </div>
+
+      <form class="mf__form" method="post" action="/api/contact" novalidate>
+        <!-- Honeypot -->
+        <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <label>
+          <span class="lbl">Nombre*</span>
+          <input name="name" required minlength="2" placeholder="Tu nombre" />
+        </label>
+
+        <label>
+          <span class="lbl">Correo*</span>
+          <input name="email" required type="email" placeholder="tu@correo.com" />
+        </label>
+
+        <label class="full">
+          <span class="lbl">Mensaje*</span>
+          <textarea name="message" required minlength="10" rows="4" placeholder="¿Qué necesitas lograr?"></textarea>
+        </label>
+
+        <div class="mf__actions">
+          <Button type="submit" variant="primary" tone={tone}>Enviar</Button>
+          <span class="small" id="mfStatus" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+  </Container>
+</section>
+
+<script>
+  const form = document.querySelector(".mf__form");
+  const status = document.getElementById("mfStatus");
+
+  form?.addEventListener("submit", async (e) => {
+    // Progressive enhancement: si fetch falla, cae al submit normal
+    e.preventDefault();
+    status.textContent = "Enviando…";
+
+    const fd = new FormData(form);
+    try {
+      const res = await fetch("/api/contact", { method: "POST", body: fd });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || "No se pudo enviar");
+      form.reset();
+      status.textContent = "Mensaje enviado ✅";
+    } catch (err) {
+      status.textContent = "Error al enviar. Intenta nuevamente.";
+    }
+  });
+</script>
+
+<style>
+  .mf{ padding: 18px; display:grid; grid-template-columns: 1fr 1.2fr; gap: 18px; }
+  .mf--yellow{ border-color: rgba(254,209,0,.25); background: rgba(254,209,0,.06); }
+  .mf--blue{ border-color: rgba(82,116,217,.25); background: rgba(82,116,217,.07); }
+
+  .mf__form{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mf__form label{ display:flex; flex-direction:column; gap: 6px; }
+  .mf__form .full{ grid-column: 1 / -1; }
+
+  .lbl{ font-size: 13px; color: rgba(255,255,255,.74); }
+  input, textarea{
+    border-radius: 14px;
+    padding: 12px 12px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.25);
+    color: rgba(255,255,255,.90);
+    font-family: var(--font-sans);
+  }
+  textarea{ resize: vertical; min-height: 120px; }
+
+  .mf__actions{ grid-column: 1 / -1; display:flex; align-items:center; gap: 12px; }
+  .hp{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+
+  @media (max-width: 980px){
+    .mf{ grid-template-columns: 1fr; }
+    .mf__form{ grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import Container from "../ui/Container.astro";
+import ServiceCard from "../cards/ServiceCard.astro";
+
+const { services } = Astro.props;
+const auto = services.filter((s) => s.data.area === "automatizacion").sort((a,b)=>a.data.order-b.data.order);
+const cash = services.filter((s) => s.data.area === "efectivo").sort((a,b)=>a.data.order-b.data.order);
+---
+<section class="section">
+  <Container>
+    <h2 class="h2">Servicios</h2>
+    <p class="p">Soluciones para industria y operación de efectivo.</p>
+
+    <div class="grid sg">
+      {auto.map((s) => <ServiceCard service={s} />)}
+      {cash.map((s) => <ServiceCard service={s} />)}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .sg{ grid-template-columns: repeat(4, 1fr); margin-top: 16px; }
+  @media (max-width: 980px){ .sg{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .sg{ grid-template-columns: 1fr; } }
+</style>

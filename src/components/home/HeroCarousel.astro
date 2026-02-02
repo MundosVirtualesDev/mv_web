@@ -1,0 +1,164 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import Chip from "../ui/Chip.astro";
+
+import hero1 from "../../assets/placeholders/hero-1.svg";
+import hero2 from "../../assets/placeholders/hero-2.svg";
+import hero3 from "../../assets/placeholders/hero-3.svg";
+
+const slides = [
+  { src: hero1, alt: "Robótica y automatización industrial" },
+  { src: hero2, alt: "Integración eléctrica y control" },
+  { src: hero3, alt: "Gestión del efectivo y continuidad operativa" },
+];
+---
+<section class="hero" aria-label="Hero">
+  <div class="hero__media" data-carousel>
+    {slides.map((s, i) => (
+      <img
+        class={`hero__img ${i === 0 ? "is-active" : ""}`}
+        src={s.src}
+        alt={s.alt}
+        loading={i === 0 ? "eager" : "lazy"}
+        decoding="async"
+        data-slide
+      />
+    ))}
+
+    <div class="hero__overlay"></div>
+
+    <div class="hero__controls">
+      <button class="hero__btn" data-prev aria-label="Anterior">‹</button>
+      <div class="hero__dots" role="tablist" aria-label="Seleccionar slide">
+        {slides.map((_, i) => (
+          <button
+            class={`hero__dot ${i === 0 ? "is-active" : ""}`}
+            aria-label={`Slide ${i + 1}`}
+            data-dot
+            data-i={i}
+          ></button>
+        ))}
+      </div>
+      <button class="hero__btn" data-next aria-label="Siguiente">›</button>
+    </div>
+
+    <Container class="hero__content">
+      <h1 class="h1">El puente entre inteligencia artificial, robótica y procesos automatizados.</h1>
+      <p class="p">
+        Diseñamos e integramos soluciones industriales y de gestión del efectivo con foco en seguridad,
+        continuidad operativa y soporte postventa.
+      </p>
+
+      <div class="hero__ctas">
+        <Button href="/contacto" variant="primary" tone="yellow">Cotizar proyecto</Button>
+        <Button href="/proyectos" variant="secondary" tone="neutral">Ver proyectos</Button>
+      </div>
+
+      <div class="badges">
+        <Chip tone="yellow">SLA y respuesta rápida</Chip>
+        <Chip tone="neutral">Seguridad</Chip>
+        <Chip tone="blue">Postventa</Chip>
+      </div>
+    </Container>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector("[data-carousel]");
+  if (!root) { /* noop */ }
+
+  const slides = Array.from(root.querySelectorAll("[data-slide]"));
+  const dots = Array.from(root.querySelectorAll("[data-dot]"));
+  const prev = root.querySelector("[data-prev]");
+  const next = root.querySelector("[data-next]");
+
+  let index = 0;
+  let timer = null;
+
+  function setActive(i) {
+    index = (i + slides.length) % slides.length;
+    slides.forEach((el, idx) => el.classList.toggle("is-active", idx === index));
+    dots.forEach((el, idx) => el.classList.toggle("is-active", idx === index));
+  }
+
+  function start() {
+    stop();
+    timer = setInterval(() => setActive(index + 1), 6500);
+  }
+  function stop() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  prev?.addEventListener("click", () => setActive(index - 1));
+  next?.addEventListener("click", () => setActive(index + 1));
+  dots.forEach((d) => d.addEventListener("click", () => setActive(Number(d.dataset.i))));
+
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") setActive(index - 1);
+    if (e.key === "ArrowRight") setActive(index + 1);
+  });
+
+  start();
+</script>
+
+<style>
+  .hero{ position: relative; }
+  .hero__media{
+    position: relative;
+    min-height: 74vh;
+    display: grid;
+    align-items: stretch;
+  }
+  .hero__img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+  .hero__img.is-active{ opacity: 1; }
+  .hero__overlay{
+    position:absolute; inset:0;
+    background: linear-gradient(90deg, rgba(13,13,13,.85), rgba(13,13,13,.55) 55%, rgba(13,13,13,.40));
+  }
+  .hero__content{
+    position: relative;
+    padding: 74px 0 62px;
+    max-width: 760px;
+  }
+  .hero__ctas{ display:flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
+  .hero__controls{
+    position:absolute;
+    left: 0; right: 0; bottom: 18px;
+    display:flex; align-items:center; justify-content:center;
+    gap: 14px;
+    z-index: 3;
+  }
+  .hero__btn{
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.28);
+    color: rgba(255,255,255,.86);
+    font-size: 22px;
+  }
+  .hero__dots{ display:flex; gap: 8px; }
+  .hero__dot{
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.30);
+    background: rgba(255,255,255,.12);
+  }
+  .hero__dot.is-active{ background: rgba(255,255,255,.78); }
+
+  @media (max-width: 720px){
+    .hero__content{ padding: 56px 0 80px; }
+    .hero__overlay{ background: linear-gradient(180deg, rgba(13,13,13,.86), rgba(13,13,13,.60)); }
+  }
+</style>

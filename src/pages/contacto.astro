@@ -1,0 +1,24 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import MiniForm from "../components/home/MiniForm.astro";
+---
+<PageLayout title="Contacto | Mundos Virtuales" description="Formulario de contacto." active="contact">
+  <section class="page-hero">
+    <Container>
+      <h1 class="h1">Contacto</h1>
+      <p class="p">Cuéntanos tu necesidad y coordinamos una propuesta.</p>
+    </Container>
+  </section>
+
+  <MiniForm tone="yellow" />
+
+  <section class="section compact">
+    <Container>
+      <article class="card" style="padding:18px;">
+        <h2 class="h2">Datos</h2>
+        <p class="p">Completa aquí dirección, correo y teléfono oficiales.</p>
+      </article>
+    </Container>
+  </section>
+</PageLayout>

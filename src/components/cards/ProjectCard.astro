@@ -1,0 +1,35 @@
+---
+import Chip from "../ui/Chip.astro";
+import Button from "../ui/Button.astro";
+
+const { project } = Astro.props; // entry from getCollection("projects")
+const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
+const href = `/proyectos/${project.data.slug}`;
+---
+<article class="card pc">
+  <a href={href} class="pc__img" aria-label={`Ver proyecto ${project.data.title}`}>
+    <img src={project.data.coverImage.src} alt={project.data.title} loading="lazy" />
+  </a>
+
+  <div class="pc__body">
+    <div class="pc__ttl">{project.data.title}</div>
+    <p class="p">{project.data.excerpt}</p>
+
+    <div class="pc__tags">
+      <Chip tone={tone}>{project.data.area === "automatizacion" ? "Automatización" : "Gestión del Efectivo"}</Chip>
+      {project.data.tags?.slice(0, 2).map((t) => <Chip>{t}</Chip>)}
+    </div>
+
+    <div class="pc__cta">
+      <Button href={href} variant="ghost" tone={tone}>Ver caso →</Button>
+    </div>
+  </div>
+</article>
+
+<style>
+  .pc{ overflow:hidden; }
+  .pc__img img{ width: 100%; height: auto; }
+  .pc__body{ padding: 16px; }
+  .pc__ttl{ font-weight: 800; margin-bottom: 8px; }
+  .pc__tags{ display:flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 14px; }
+</style>

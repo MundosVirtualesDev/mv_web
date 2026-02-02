@@ -1,0 +1,47 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Chip from "../components/ui/Chip.astro";
+import Button from "../components/ui/Button.astro";
+---
+<PageLayout title="Quiénes Somos | Mundos Virtuales" description="Propuesta de valor y enfoque." active="about">
+  <section class="page-hero">
+    <Container>
+      <h1 class="h1">Quiénes Somos</h1>
+      <p class="p">Ingeniería e integración con foco en seguridad, continuidad operativa y soporte postventa.</p>
+      <div class="badges">
+        <Chip tone="yellow">SLA</Chip>
+        <Chip tone="neutral">Seguridad</Chip>
+        <Chip tone="blue">Postventa</Chip>
+      </div>
+      <div style="margin-top:16px;">
+        <Button href="/contacto" variant="primary" tone="yellow">Hablemos</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <div class="grid" style="grid-template-columns:repeat(3,1fr);">
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Respuesta rápida y cumplimiento</h3>
+          <p class="p">Procesos claros de atención y seguimiento.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Seguridad como prioridad</h3>
+          <p class="p">Diseño orientado a operación segura.</p>
+        </article>
+        <article class="card" style="padding:18px;">
+          <h3 class="h3">Acompañamiento continuo</h3>
+          <p class="p">Soporte técnico para mantener disponibilidad.</p>
+        </article>
+      </div>
+    </Container>
+
+    <style>
+      @media (max-width: 980px){
+        .grid[style*="repeat(3"]{ grid-template-columns: 1fr !important; }
+      }
+    </style>
+  </section>
+</PageLayout>

@@ -1,0 +1,27 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import HeroCarousel from "../components/home/HeroCarousel.astro";
+import SplitAreas from "../components/home/SplitAreas.astro";
+import ValueProps from "../components/home/ValueProps.astro";
+import ServicesGrid from "../components/home/ServicesGrid.astro";
+import ProjectsFeatured from "../components/home/ProjectsFeatured.astro";
+import MiniForm from "../components/home/MiniForm.astro";
+
+import { getCollection } from "astro:content";
+
+const services = await getCollection("services");
+const projectsAll = await getCollection("projects");
+
+const featured = projectsAll
+  .filter((p) => p.data.featured)
+  .sort((a, b) => (b.data.date ?? "0000-00-00").localeCompare(a.data.date ?? "0000-00-00"))
+  .slice(0, 3);
+---
+<PageLayout title="Mundos Virtuales" description="Automatización industrial y gestión del efectivo." active="">
+  <HeroCarousel />
+  <SplitAreas />
+  <ValueProps />
+  <ServicesGrid services={services} />
+  <ProjectsFeatured projects={featured} />
+  <MiniForm tone="yellow" />
+</PageLayout>

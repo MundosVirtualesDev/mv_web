@@ -1,0 +1,25 @@
+---
+import Button from "../ui/Button.astro";
+
+const { service } = Astro.props; // entry from getCollection("services")
+const tone = service.data.area === "automatizacion" ? "yellow" : "blue";
+const href =
+  service.data.area === "automatizacion"
+    ? `/automatizacion-industrial/${service.data.slug}`
+    : `/gestion-del-efectivo/${service.data.slug}`;
+---
+<article class="card sc">
+  <div class="sc__top">
+    <div class="sc__ttl">{service.data.title}</div>
+    <p class="p">{service.data.summary}</p>
+  </div>
+  <div class="sc__cta">
+    <Button href={href} variant="ghost" tone={tone}>Ver servicio →</Button>
+  </div>
+</article>
+
+<style>
+  .sc{ padding: 18px; display:flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
+  .sc__ttl{ font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .sc__cta{ margin-top: 14px; }
+</style>
