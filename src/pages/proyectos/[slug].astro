@@ -9,12 +9,12 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((p) => ({ params: { slug: p.data.slug } }));
+  return projects.map((p) => ({ params: { slug: p.id } }));
 }
 
 const { slug } = Astro.params;
 const projects = await getCollection("projects");
-const project = projects.find((p) => p.data.slug === slug);
+const project = projects.find((p) => p.id === slug);
 if (!project) throw new Error("Proyecto no encontrado");
 
 const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
@@ -22,7 +22,7 @@ const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
 // relacionados por tags y área
 const tags = new Set((project.data.tags ?? []).map(t=>t.toLowerCase()));
 const related = projects
-  .filter((p) => p.data.slug !== project.data.slug)
+  .filter((p) => p.id !== project.id)
   .map((p) => {
     const pt = new Set((p.data.tags ?? []).map(t=>t.toLowerCase()));
     let inter = 0;

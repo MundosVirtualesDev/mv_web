@@ -1,6 +1,6 @@
 # Mundos Virtuales — Sitio Web (Astro)
 
-Proyecto base para la web de **Mundos Virtuales**, construido con **Astro** + Content Collections (Markdown) + un formulario simple con endpoint `/api/contact`.
+Proyecto base para la web de **Mundos Virtuales**, construido con **Astro v5** + Content Collections (Markdown) + un formulario simple con endpoint `/api/contact`.
 
 ## Requisitos
 - Node.js 18+ (recomendado 20+)

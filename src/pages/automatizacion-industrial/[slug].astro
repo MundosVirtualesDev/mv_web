@@ -10,12 +10,12 @@ export async function getStaticPaths() {
   const services = await getCollection("services");
   return services
     .filter((s) => s.data.area === "automatizacion")
-    .map((s) => ({ params: { slug: s.data.slug } }));
+    .map((s) => ({ params: { slug: s.id } }));
 }
 
 const { slug } = Astro.params;
 const services = await getCollection("services");
-const service = services.find((s) => s.data.area === "automatizacion" && s.data.slug === slug);
+const service = services.find((s) => s.data.area === "automatizacion" && s.id === slug);
 if (!service) throw new Error("Servicio no encontrado");
 
 const projectsAll = await getCollection("projects");
@@ -25,7 +25,7 @@ const related = projectsAll
   .filter((p) => p.data.area === "automatizacion")
   .map((p) => {
     const sr = new Set(p.data.serviceRefs ?? []);
-    const mySlug = service.data.slug;
+    const mySlug = service.id;
     const scoreSr = sr.has(mySlug) ? 3 : 0;
 
     const tagsP = new Set((p.data.tags ?? []).map((t) => t.toLowerCase()));

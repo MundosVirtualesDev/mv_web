@@ -5,8 +5,8 @@ const { service } = Astro.props; // entry from getCollection("services")
 const tone = service.data.area === "automatizacion" ? "yellow" : "blue";
 const href =
   service.data.area === "automatizacion"
-    ? `/automatizacion-industrial/${service.data.slug}`
-    : `/gestion-del-efectivo/${service.data.slug}`;
+    ? `/automatizacion-industrial/${service.id}`
+    : `/gestion-del-efectivo/${service.id}`;
 ---
 <article class="card sc">
   <div class="sc__top">

@@ -4,7 +4,7 @@ import Button from "../ui/Button.astro";
 
 const { project } = Astro.props; // entry from getCollection("projects")
 const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
-const href = `/proyectos/${project.data.slug}`;
+const href = `/proyectos/${project.id}`;
 ---
 <article class="card pc">
   <a href={href} class="pc__img" aria-label={`Ver proyecto ${project.data.title}`}>

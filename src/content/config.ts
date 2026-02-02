@@ -8,7 +8,6 @@ const services = defineCollection({
     z.object({
       title: z.string(),
       area: areaEnum,
-      slug: z.string(),
       summary: z.string().min(20).max(200),
 
       heroImage: image().optional(),
@@ -27,7 +26,6 @@ const projects = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      slug: z.string(),
       area: areaEnum,
 
       excerpt: z.string().min(20).max(240),
