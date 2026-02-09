@@ -30,7 +30,6 @@ const { title = "Mundos Virtuales" } = Astro.props;
           <a class="nav__link" href="#contacto">CONTACTO</a>
         </nav>
 
-        <!-- menú simple mobile (sin drawer complejo) -->
         <details class="menu show-mobile">
           <summary class="menu__btn" aria-label="Abrir menú">☰</summary>
           <div class="menu__panel card">
@@ -46,6 +45,12 @@ const { title = "Mundos Virtuales" } = Astro.props;
     <main>
       <slot />
     </main>
+
+    <!-- FAB Cotizar (siempre visible) -->
+    <a class="fab" href="#contacto" aria-label="Cotizar">
+      <span class="fab__dot" aria-hidden="true"></span>
+      <span class="fab__text">COTIZAR</span>
+    </a>
 
     <style>
       .topbar{

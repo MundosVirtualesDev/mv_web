@@ -1,0 +1,90 @@
+---
+const leftImg = "/img/strip-robot.jpg";
+const rightImg = "/img/strip-cash.jpg";
+---
+
+<section class="strip" aria-label="Áreas principales">
+  <div class="container strip__grid">
+    <div class="strip__media card" data-reveal>
+      <img src={leftImg} alt="Automatización industrial" loading="lazy" />
+    </div>
+
+    <article class="strip__tile strip__tile--yellow card" data-reveal>
+      <h3>AUTOMATIZACIÓN<br/>INDUSTRIAL</h3>
+      <a class="btn btn-yellow" href="/automatizacion">DESCUBRE MÁS</a>
+    </article>
+
+    <div class="strip__media strip__media--overlay card" data-reveal>
+      <img src={rightImg} alt="Gestión del efectivo" loading="lazy" />
+      <div class="overlay">
+        <h3>GESTIÓN<br/>DEL EFECTIVO</h3>
+        <a class="btn btn-blue" href="/gestion-efectivo">DESCUBRE MÁS</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .strip{
+      margin-top: -56px;
+      padding-bottom: 8px;
+    }
+    .strip__grid{
+      display:grid;
+      grid-template-columns: 1fr 0.9fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .strip__media{
+      overflow:hidden;
+      min-height: 170px;
+    }
+    .strip__media img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+    }
+
+    .strip__tile{
+      min-height: 170px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 22px;
+    }
+    .strip__tile h3,
+    .overlay h3{
+      margin:0;
+      font-size: 1.05rem;
+      letter-spacing:.9px;
+      line-height:1.08;
+      font-weight:900;
+    }
+    .strip__tile--yellow{
+      background: var(--mv-yellow);
+    }
+
+    .strip__media--overlay{
+      position:relative;
+    }
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap: 18px;
+      padding: 18px;
+      background: linear-gradient(90deg, rgba(29,44,89,.0) 0%, rgba(29,44,89,.35) 40%, rgba(29,44,89,.92) 100%);
+      color:#fff;
+    }
+
+    @media (max-width: 980px){
+      .strip{ margin-top: -24px; }
+      .strip__grid{ grid-template-columns: 1fr; }
+      .overlay{
+        justify-content:space-between;
+        background: linear-gradient(180deg, rgba(29,44,89,.15) 0%, rgba(29,44,89,.92) 100%);
+      }
+    }
+  </style>
+</section>

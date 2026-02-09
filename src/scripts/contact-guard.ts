@@ -13,13 +13,11 @@ export function mountContactGuard(opts: GuardOptions) {
   const hp = form.querySelector<HTMLInputElement>(`input[name="${opts.honeypotName}"]`);
 
   form.addEventListener("submit", (ev) => {
-    // honeypot
     if (hp && hp.value.trim().length > 0) {
       ev.preventDefault();
       return;
     }
 
-    // rate-limit (frontend)
     const now = Date.now();
     const last = Number(localStorage.getItem(key) ?? "0");
     const minMs = opts.minSecondsBetweenSends * 1000;
