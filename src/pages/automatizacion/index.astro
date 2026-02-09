@@ -1,0 +1,59 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import AreaHero from "../../components/area/AreaHero.astro";
+import ServicesGrid from "../../components/area/ServicesGrid.astro";
+import ValueProps from "../../components/area/ValueProps.astro";
+import AreaCTA from "../../components/area/AreaCTA.astro";
+
+const services = [
+  {
+    title: "Automatización Industrial",
+    description:
+      "Desarrollamos soluciones de automatización industrial a medida, integrando PLC, HMI, sensores y sistemas de control para optimizar procesos como paletización, ensamblaje, manipulación, soldadura, pintura e industria pesada.",
+  },
+  {
+    title: "Robótica Inteligente",
+    description:
+      "Implementamos sistemas automatizados con brazos robóticos y sistemas complementarios como visión artificial y machine learning, logrando procesos más precisos, seguros y flexibles. Esto lo logramos implementando visión computacional, redes neuronales, deep learning y control automático clásico e inteligente.",
+  },
+  {
+    title: "Integración Eléctrica y de Control",
+    description:
+      "Diseñamos e implementamos infraestructura eléctrica y de control industrial, incluyendo tableros eléctricos, cableado, programación de PLC y pantallas HMI, instalación de instrumentación y puesta en marcha. Nuestras instalaciones incluyen pruebas FAT y SAT si son requeridas.",
+  },
+  {
+    title: "Mantenimiento Técnico Industrial",
+    description:
+      "Brindamos soporte técnico especializado para asegurar la continuidad operativa, con mantenimiento, ajustes de programación, cambios de recetas y calibración de robots y componentes críticos. Ofrecemos planes de mantenimiento preventivo.",
+  },
+];
+---
+
+<PageLayout title="Automatización Industrial y Robótica | Mundos Virtuales">
+  <AreaHero
+    tone="yellow"
+    title="Soluciones inteligentes para procesos industriales más eficientes, seguros y confiables"
+    subtitle="Diseñamos, integramos y mantenemos sistemas de automatización industrial y robótica avanzada para empresas que buscan mejorar su productividad, reducir riesgos operacionales y asegurar la continuidad de sus procesos."
+    image="/img/area-automatizacion.jpg"
+  />
+
+  <ValueProps tone="yellow" />
+
+  <ServicesGrid
+    tone="yellow"
+    title="Servicios"
+    intro="Integramos tecnología, ingeniería y postventa para garantizar continuidad operativa y resultados."
+    services={services}
+  />
+
+  <AreaCTA
+    tone="yellow"
+    title="Automatiza con confianza"
+    subtitle="Podemos ayudarte a definir, implementar y mantener tu solución de automatización industrial o robótica."
+  />
+</PageLayout>
+
+<script>
+  import { mountReveal } from "../../scripts/reveal";
+  mountReveal();
+</script>

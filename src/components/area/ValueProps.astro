@@ -1,0 +1,60 @@
+---
+/**
+ * Props:
+ * - tone: "yellow" | "blue"
+ */
+const { tone="yellow" } = Astro.props;
+const isYellow = tone === "yellow";
+const accent = isYellow ? "var(--mv-yellow)" : "var(--mv-blue)";
+const items = [
+  { t: "Respuesta rápida y cumplimiento estricto de SLA", d: "Referentes en tiempos de atención y ejecución de servicios de mantenimiento." },
+  { t: "Enfoque absoluto en la seguridad", d: "Buenas prácticas y estándares aplicados en cada intervención e instalación." },
+  { t: "Acompañamiento postventa continuo", d: "Nos hacemos responsables de la continuidad operativa y evolución del sistema." },
+];
+---
+
+<section class="section vp">
+  <div class="container">
+    <h2 class="h2" data-reveal>Propuesta de valor</h2>
+    <div class="grid">
+      {items.map((it) => (
+        <article class="card item" data-reveal>
+          <div class="bar" style={`background:${accent};`}></div>
+          <h3>{it.t}</h3>
+          <p class="p">{it.d}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .vp{ background: var(--mv-light); border-top:1px solid rgba(0,0,0,.06); border-bottom:1px solid rgba(0,0,0,.06); }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding-top: 8px;
+    }
+    .item{
+      padding: 18px;
+      position: relative;
+      overflow:hidden;
+    }
+    .bar{
+      position:absolute;
+      left:0; top:0;
+      width: 100%;
+      height: 8px;
+      opacity: .95;
+    }
+    .item h3{
+      margin: 10px 0 8px 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</section>

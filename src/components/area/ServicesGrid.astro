@@ -1,0 +1,65 @@
+---
+/**
+ * Props:
+ * - title: string
+ * - intro?: string
+ * - tone: "yellow" | "blue"
+ * - services: Array<{ title: string, description: string }>
+ */
+const { title, intro, tone = "yellow", services = [] } = Astro.props;
+const isYellow = tone === "yellow";
+const pillBg = isYellow ? "rgba(254,209,0,.22)" : "rgba(82,116,217,.18)";
+---
+
+<section class="section">
+  <div class="container">
+    <header class="head" data-reveal>
+      <span class="pill" style={`background:${pillBg}; border:1px solid rgba(0,0,0,.08);`}>
+        {isYellow ? "Servicios de Automatización" : "Servicios de Gestión del Efectivo"}
+      </span>
+      <h2 class="h2">{title}</h2>
+      {intro && <p class="p">{intro}</p>}
+    </header>
+
+    <div class="grid">
+      {services.map((s) => (
+        <article class="svc card" data-reveal>
+          <h3>{s.title}</h3>
+          <p class="p">{s.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .head{ margin-bottom: 18px; }
+    .pill{
+      display:inline-flex;
+      padding:.35rem .7rem;
+      border-radius:999px;
+      font-weight:900;
+      font-size:.85rem;
+      letter-spacing:.3px;
+      margin-bottom: 10px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    .svc{
+      padding: 18px;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: var(--shadow-soft);
+    }
+    .svc h3{
+      margin:0 0 8px 0;
+      font-size: 1.1rem;
+      letter-spacing:.2px;
+      font-weight: 900;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</section>

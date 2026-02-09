@@ -1,0 +1,52 @@
+---
+/**
+ * Props:
+ * - tone: "yellow" | "blue"
+ * - title?: string
+ * - subtitle?: string
+ */
+const {
+  tone="yellow",
+  title="¿Tienes un proyecto en mente?",
+  subtitle="Cuéntanos tu necesidad y te contactamos con una propuesta técnica.",
+} = Astro.props;
+
+const isYellow = tone === "yellow";
+const btnClass = isYellow ? "btn-yellow" : "btn-blue";
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta card" data-reveal>
+      <div>
+        <h2 class="h2" style="margin:0 0 8px 0;">{title}</h2>
+        <p class="p">{subtitle}</p>
+      </div>
+      <div class="cta__actions">
+        <a class={"btn " + btnClass} href="/#contacto">COTIZAR</a>
+        <a class="btn" href="/#contacto">CONTACTO</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .cta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 18px;
+      padding: 18px;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .cta__actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    @media (max-width: 900px){
+      .cta{ flex-direction: column; align-items:flex-start; }
+      .cta__actions{ width:100%; justify-content:flex-start; }
+    }
+  </style>
+</section>

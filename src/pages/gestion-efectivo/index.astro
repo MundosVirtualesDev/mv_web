@@ -1,0 +1,59 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import AreaHero from "../../components/area/AreaHero.astro";
+import ServicesGrid from "../../components/area/ServicesGrid.astro";
+import ValueProps from "../../components/area/ValueProps.astro";
+import AreaCTA from "../../components/area/AreaCTA.astro";
+
+const services = [
+  {
+    title: "Back Office",
+    description:
+      "Optimiza la operación de tu tesorería. Ofrecemos máquinas contadoras, clasificadoras y depositarios que automatizan la gestión, validación y arqueo del efectivo, mejorando la productividad y la confiabilidad de la operación, especialmente en los procesos de apertura y cierre de la jornada.",
+  },
+  {
+    title: "Front Office",
+    description:
+      "Autoservicio eficiente y confiable. Implementamos kioscos y recicladores que agilizan las transacciones en cajas y autoservicio, reduciendo los tiempos de atención y optimizando la operación en sucursal.",
+  },
+  {
+    title: "Automatización de Procesos",
+    description:
+      "Diseño e integración de soluciones a medida. Desarrollamos e integramos sistemas que se adaptan a tu operación, estandarizando flujos de trabajo y mejorando el desempeño operativo.",
+  },
+  {
+    title: "Soporte Técnico",
+    description:
+      "Continuidad operativa para tus equipos. Brindamos soporte técnico especializado y mantenimiento preventivo que aseguran la disponibilidad y el desempeño continuo de los equipos.",
+  },
+];
+---
+
+<PageLayout title="Gestión del Efectivo | Mundos Virtuales">
+  <AreaHero
+    tone="blue"
+    title="Soluciones integrales para optimizar la gestión del efectivo"
+    subtitle="Aseguramos continuidad y confiabilidad de la operación. Integramos equipamiento de back y front office para automatizar procesos de tesorería y atención al cliente, complementado con soporte técnico especializado y soluciones personalizadas."
+    image="/img/area-efectivo.jpg"
+  />
+
+  <ValueProps tone="blue" />
+
+  <ServicesGrid
+    tone="blue"
+    title="Servicios"
+    intro="Equipamiento + integración + soporte, para reducir tiempos de atención y mejorar productividad."
+    services={services}
+  />
+
+  <AreaCTA
+    tone="blue"
+    title="Optimiza tu operación de efectivo"
+    subtitle="Hablemos de tu flujo de tesorería, atención y control para proponer una solución integral."
+  />
+</PageLayout>
+
+<script>
+  import { mountReveal } from "../../scripts/reveal";
+  mountReveal();
+</script>
