@@ -10,13 +10,21 @@ export async function getStaticPaths() {
   const services = await getCollection("services");
   return services
     .filter((s) => s.data.area === "automatizacion")
-    .map((s) => ({ params: { slug: s.id } }));
+    // ✅ usar slug (sin .md)
+    .map((s) => ({ params: { slug: s.slug } }));
 }
 
 const { slug } = Astro.params;
 const services = await getCollection("services");
-const service = services.find((s) => s.data.area === "automatizacion" && s.id === slug);
+
+// ✅ buscar por s.slug, no por s.id
+const service = services.find(
+  (s) => s.data.area === "automatizacion" && s.slug === slug
+);
 if (!service) throw new Error("Servicio no encontrado");
+
+// ✅ obtener Content desde render()
+const { Content } = await service.render();
 
 const projectsAll = await getCollection("projects");
 
@@ -25,8 +33,11 @@ const related = projectsAll
   .filter((p) => p.data.area === "automatizacion")
   .map((p) => {
     const sr = new Set(p.data.serviceRefs ?? []);
-    const mySlug = service.id;
-    const scoreSr = sr.has(mySlug) ? 3 : 0;
+    // OJO: serviceRefs probablemente guarda ids (con .md) o slugs.
+    // Si guardas ids en projects, mantén service.id aquí.
+    // Si guardas slugs, cambia a service.slug.
+    const myRef = service.id;
+    const scoreSr = sr.has(myRef) ? 3 : 0;
 
     const tagsP = new Set((p.data.tags ?? []).map((t) => t.toLowerCase()));
     const tagsS = new Set((service.data.capabilities ?? []).map((t) => t.toLowerCase()));
@@ -39,6 +50,7 @@ const related = projectsAll
   .slice(0, 3)
   .map((x)=>x.p);
 ---
+
 <PageLayout
   title={`${service.data.title} | Automatización | Mundos Virtuales`}
   description={service.data.summary}
@@ -65,7 +77,8 @@ const related = projectsAll
         <article class="card" style="padding:18px;">
           <h2 class="h2">Qué hacemos</h2>
           <div class="p" style="color: rgba(255,255,255,.84); margin-top: 10px;">
-            <service.Content />
+            {/* ✅ render correcto del contenido */}
+            <Content />
           </div>
         </article>
 
