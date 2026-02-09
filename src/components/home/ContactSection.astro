@@ -1,0 +1,91 @@
+<section id="contacto" class="section contact">
+  <div class="container contact__inner">
+    <h2 class="contact__title" data-reveal>¡HABLEMOS!</h2>
+
+    <form id="mv-contact-form" class="contact__form card" method="post" action="#" data-reveal>
+      <!-- honeypot invisible -->
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <label>
+        <span>Nombre</span>
+        <input name="name" required maxlength="80" />
+      </label>
+
+      <label>
+        <span>Correo</span>
+        <input name="email" type="email" required maxlength="120" />
+      </label>
+
+      <label>
+        <span>Teléfono</span>
+        <input name="phone" inputmode="tel" maxlength="40" />
+      </label>
+
+      <label class="full">
+        <span>Mensaje</span>
+        <textarea name="message" required rows="5" maxlength="1200"></textarea>
+      </label>
+
+      <div class="actions">
+        <button class="btn btn-blue" type="submit">CONTACTARNOS</button>
+      </div>
+
+      <p class="note">
+        * Validación básica en frontend + protección anti-spam (honeypot + limitación por tiempo).
+      </p>
+    </form>
+  </div>
+
+  <style>
+    .contact{ background: var(--mv-light); border-top:1px solid rgba(0,0,0,.06); }
+    .contact__inner{ display:grid; gap:18px; justify-items:center; }
+    .contact__title{
+      margin:0;
+      font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+      letter-spacing: 1px;
+      font-weight: 900;
+    }
+
+    .contact__form{
+      width:min(720px, 100%);
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    label{ display:flex; flex-direction:column; gap:6px; font-weight:700; font-size:.92rem; }
+    label span{ color: rgba(13,13,13,.72); }
+    input, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(0,0,0,.14);
+      outline:none;
+      font: inherit;
+      background:#fff;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(82,116,217,.65);
+      box-shadow: 0 0 0 4px rgba(82,116,217,.16);
+    }
+    .full{ grid-column: 1 / -1; }
+    .actions{
+      grid-column: 1 / -1;
+      display:flex;
+      justify-content:flex-end;
+      padding-top: 4px;
+    }
+    .note{
+      grid-column: 1 / -1;
+      margin: 2px 0 0 0;
+      font-size:.85rem;
+      color: rgba(13,13,13,.58);
+    }
+    .hp{ position:absolute; left:-9999px; opacity:0; height:0; width:0; }
+
+    @media (max-width: 820px){
+      .contact__form{ grid-template-columns: 1fr; }
+    }
+  </style>
+</section>

@@ -1,0 +1,83 @@
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <div class="brandMark">MV</div>
+      <div>
+        <div class="b1">MUNDOS VIRTUALES</div>
+        <div class="b2">AUTOMATIZACIÓN Y ROBÓTICA</div>
+      </div>
+    </div>
+
+    <div class="footer__by">
+      <span>By</span>
+      <strong>BUSSO group</strong>
+    </div>
+
+    <div class="footer__col">
+      <div class="ttl">Oficina</div>
+      <div class="txt">Santiago, Región Metropolitana</div>
+      <div class="ttl" style="margin-top:10px;">Síguenos</div>
+      <div class="social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="Facebook">fb</a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <div class="ttl">Call Center</div>
+      <div class="txt">+56 2 2634 0001</div>
+      <div class="ttl" style="margin-top:10px;">Email</div>
+      <div class="txt">contacto@mundos-virtuales.com</div>
+    </div>
+  </div>
+
+  <style>
+    .footer{
+      background: var(--mv-navy);
+      color:#fff;
+      padding: 26px 0;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+    .footer__grid{
+      display:grid;
+      grid-template-columns: 1.2fr .7fr 1fr 1fr;
+      gap:18px;
+      align-items:center;
+    }
+    .footer__brand{ display:flex; align-items:center; gap:12px; }
+    .brandMark{
+      width:48px; height:48px;
+      border-radius:16px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.12);
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(0,0,0,.22);
+    }
+    .b1{ font-weight:900; letter-spacing:.6px; }
+    .b2{ opacity:.8; font-weight:700; font-size:.9rem; }
+    .footer__by{ opacity:.95; display:flex; gap:10px; align-items:baseline; }
+    .footer__by strong{ font-size:1.4rem; letter-spacing:.6px; }
+
+    .ttl{ font-weight:900; letter-spacing:.3px; margin-bottom:6px; }
+    .txt{ opacity:.85; line-height:1.45; }
+
+    .social{ display:flex; gap:10px; }
+    .social a{
+      width:34px; height:34px; border-radius:12px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.14);
+      font-weight:900;
+    }
+    .social a:hover{ filter: brightness(1.05); transform: translateY(-1px); transition: .15s ease; }
+
+    @media (max-width: 980px){
+      .footer__grid{ grid-template-columns: 1fr 1fr; }
+      .footer__by{ justify-content:flex-start; }
+    }
+    @media (max-width: 560px){
+      .footer__grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</footer>

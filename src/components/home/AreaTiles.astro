@@ -1,0 +1,47 @@
+<section class="tiles">
+  <div class="container tiles__grid">
+    <article class="tile tile--yellow card" data-reveal>
+      <h3>AUTOMATIZACIÓN<br/>INDUSTRIAL</h3>
+      <a class="btn btn-yellow" href="/automatizacion">DESCUBRE MÁS</a>
+    </article>
+
+    <article class="tile tile--blue card" data-reveal>
+      <h3>GESTIÓN<br/>DEL EFECTIVO</h3>
+      <a class="btn btn-blue" href="/gestion-efectivo">DESCUBRE MÁS</a>
+    </article>
+  </div>
+
+  <style>
+    .tiles{ margin-top: -52px; }
+    .tiles__grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
+    .tile{
+      min-height: 170px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 22px 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .tile h3{
+      margin:0;
+      font-size: 1.05rem;
+      letter-spacing:.9px;
+      line-height:1.08;
+      font-weight:900;
+    }
+    .tile--yellow{ background: var(--mv-yellow); }
+    .tile--blue{ background: var(--mv-navy); color:#fff; }
+    .tile--blue .btn-blue{ background: var(--mv-blue); }
+
+    @media (max-width: 820px){
+      .tiles{ margin-top: -22px; }
+      .tiles__grid{ grid-template-columns: 1fr; }
+      .tile{ min-height: 150px; }
+    }
+  </style>
+</section>

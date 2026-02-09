@@ -1,14 +1,111 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-import Header from "../components/layout/Header.astro";
-import Footer from "../components/layout/Footer.astro";
-
-const { title, description, active } = Astro.props;
+import "../styles/global.css";
+const { title = "Mundos Virtuales" } = Astro.props;
 ---
-<BaseLayout title={title} description={description}>
-  <Header active={active} />
-  <main>
-    <slot />
-  </main>
-  <Footer />
-</BaseLayout>
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="Mundos Virtuales: Automatización Industrial y Gestión del Efectivo." />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="/" aria-label="Mundos Virtuales">
+          <span class="brand__mark">MV</span>
+          <span class="brand__text">
+            <strong>MUNDOS</strong><br/>
+            <span>VIRTUALES</span>
+          </span>
+        </a>
+
+        <nav class="nav hide-mobile" aria-label="Principal">
+          <a class="nav__link" href="/automatizacion">AUTOMATIZACIÓN INDUSTRIAL</a>
+          <a class="nav__link" href="/gestion-efectivo">GESTIÓN DEL EFECTIVO</a>
+          <a class="nav__link" href="/quienes-somos">QUIÉNES SOMOS</a>
+          <a class="nav__link" href="#contacto">CONTACTO</a>
+        </nav>
+
+        <!-- menú simple mobile (sin drawer complejo) -->
+        <details class="menu show-mobile">
+          <summary class="menu__btn" aria-label="Abrir menú">☰</summary>
+          <div class="menu__panel card">
+            <a href="/automatizacion">Automatización Industrial</a>
+            <a href="/gestion-efectivo">Gestión del Efectivo</a>
+            <a href="/quienes-somos">Quiénes somos</a>
+            <a href="#contacto">Contacto</a>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <style>
+      .topbar{
+        position:sticky; top:0; z-index:50;
+        background: rgba(255,255,255,.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0,0,0,.08);
+      }
+      .topbar__inner{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:16px; padding: 14px 0;
+      }
+      .brand{ display:flex; align-items:center; gap:12px; }
+      .brand__mark{
+        width:40px; height:40px; border-radius:12px;
+        display:grid; place-items:center;
+        background: var(--mv-navy); color:#fff; font-weight:800;
+        box-shadow: var(--shadow-soft);
+      }
+      .brand__text{ line-height:1.05; font-size:.92rem; letter-spacing:.2px; }
+      .brand__text span{ color: rgba(13,13,13,.72); font-weight:600; }
+
+      .nav{ display:flex; gap:18px; align-items:center; }
+      .nav__link{
+        font-size:.86rem;
+        letter-spacing:.6px;
+        font-weight:700;
+        color: rgba(13,13,13,.78);
+        padding:.5rem .35rem;
+        border-radius:10px;
+        transition: background .15s ease, color .15s ease;
+      }
+      .nav__link:hover{
+        background: rgba(0,0,0,.06);
+        color: rgba(13,13,13,.92);
+      }
+
+      .menu{ position:relative; }
+      .menu__btn{
+        list-style:none;
+        display:inline-flex;
+        width:44px; height:44px;
+        border-radius:12px;
+        align-items:center; justify-content:center;
+        border:1px solid rgba(0,0,0,.12);
+        background:#fff;
+        cursor:pointer;
+      }
+      .menu__panel{
+        position:absolute; right:0; top:52px;
+        padding:12px;
+        display:flex; flex-direction:column; gap:10px;
+        min-width: 240px;
+      }
+      .menu__panel a{
+        padding:10px 12px;
+        border-radius:12px;
+        background: rgba(0,0,0,.04);
+        font-weight:700;
+      }
+    </style>
+  </body>
+</html>
