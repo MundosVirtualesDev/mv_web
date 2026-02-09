@@ -9,13 +9,19 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((p) => ({ params: { slug: p.id } }));
+  // ✅ slug sin .md
+  return projects.map((p) => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
 const projects = await getCollection("projects");
-const project = projects.find((p) => p.id === slug);
+
+// ✅ buscar por slug (no id)
+const project = projects.find((p) => p.slug === slug);
 if (!project) throw new Error("Proyecto no encontrado");
+
+// ✅ obtener Content desde render()
+const { Content } = await project.render();
 
 const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
 
@@ -34,6 +40,7 @@ const related = projects
   .slice(0,3)
   .map(x=>x.p);
 ---
+
 <PageLayout title={`${project.data.title} | Proyectos | Mundos Virtuales`} description={project.data.excerpt} active="projects">
   <section class="page-hero">
     <Container>
@@ -66,7 +73,8 @@ const related = projects
       <article class="card" style="padding:18px;">
         <h2 class="h2">Detalle</h2>
         <div class="p" style="color: rgba(255,255,255,.84);">
-          <project.Content />
+          {/* ✅ render correcto del markdown */}
+          <Content />
         </div>
       </article>
     </Container>
