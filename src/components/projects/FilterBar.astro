@@ -1,0 +1,14 @@
+---
+const { current = "all" } = Astro.props as { current?: string };
+const mk = (k: string) => (k === current ? "btn btn-blue" : "btn");
+---
+
+<div class="wrap" data-reveal>
+  <a class={mk("all")} href="/proyectos">Todos</a>
+  <a class={mk("automatizacion")} href="/proyectos?area=automatizacion">Automatización</a>
+  <a class={mk("efectivo")} href="/proyectos?area=efectivo">Gestión del efectivo</a>
+
+  <style>
+    .wrap{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin: 10px 0 18px 0; }
+  </style>
+</div>

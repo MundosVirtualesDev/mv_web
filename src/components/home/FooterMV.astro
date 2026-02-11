@@ -1,3 +1,8 @@
+---
+import { site } from "../../config/site";
+const { contact, social } = site;
+---
+
 <footer class="footer">
   <div class="container footer__grid">
     <div class="footer__brand">
@@ -15,20 +20,29 @@
 
     <div class="footer__col">
       <div class="ttl">Oficina</div>
-      <div class="txt">Santiago, Región Metropolitana</div>
+      <div class="txt">{contact.office}</div>
+
       <div class="ttl" style="margin-top:10px;">Síguenos</div>
       <div class="social">
-        <a href="#" aria-label="LinkedIn">in</a>
-        <a href="#" aria-label="Instagram">ig</a>
-        <a href="#" aria-label="Facebook">fb</a>
+        <a href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+        <a href={social.instagram} target="_blank" rel="noopener" aria-label="Instagram">ig</a>
+        <a href={social.facebook} target="_blank" rel="noopener" aria-label="Facebook">fb</a>
       </div>
     </div>
 
     <div class="footer__col">
       <div class="ttl">Call Center</div>
-      <div class="txt">+56 2 2634 0001</div>
+      <div class="txt">{contact.phone}</div>
+
       <div class="ttl" style="margin-top:10px;">Email</div>
-      <div class="txt">contacto@mundos-virtuales.com</div>
+      <div class="txt">
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+
+      <div class="ttl" style="margin-top:10px;">Github</div>
+      <div class="txt">
+        <a href={social.github} target="_blank" rel="noopener">Repositorio</a>
+      </div>
     </div>
   </div>
 
@@ -61,6 +75,7 @@
 
     .ttl{ font-weight:900; letter-spacing:.3px; margin-bottom:6px; }
     .txt{ opacity:.85; line-height:1.45; }
+    .txt a{ text-decoration: underline; text-underline-offset: 3px; }
 
     .social{ display:flex; gap:10px; }
     .social a{

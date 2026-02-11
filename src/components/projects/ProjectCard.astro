@@ -1,0 +1,50 @@
+---
+import type { Project } from "../../data/projects";
+const { project } = Astro.props as { project: Project };
+
+const tone = project.area === "automatizacion" ? "yellow" : "blue";
+const chipBg = tone === "yellow" ? "rgba(254,209,0,.22)" : "rgba(82,116,217,.18)";
+const chipText = "rgba(13,13,13,.84)";
+---
+
+<a class="cardWrap" href={`/proyectos/${project.slug}`} data-reveal>
+  <article class="card cardP">
+    <div class="img">
+      <img src={project.cover ?? "/img/projects/placeholder.jpg"} alt={project.title} loading="lazy" />
+    </div>
+    <div class="body">
+      <div class="top">
+        <span class="chip" style={`background:${chipBg}; color:${chipText}; border:1px solid rgba(0,0,0,.08);`}>
+          {project.area === "automatizacion" ? "Automatización" : "Gestión del efectivo"}
+        </span>
+        {project.year && <span class="yr">{project.year}</span>}
+      </div>
+      <h3>{project.title}</h3>
+      <p class="p">{project.summary}</p>
+      <div class="tags">
+        {project.tags.slice(0,4).map((t) => <span class="tag">{t}</span>)}
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .cardWrap{ display:block; }
+    .cardP{ overflow:hidden; border:1px solid rgba(0,0,0,.06); }
+    .img{ height: 170px; background: rgba(0,0,0,.04); }
+    .img img{ width:100%; height:100%; object-fit: cover; }
+    .body{ padding: 16px; }
+    .top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .yr{ font-weight:900; color: rgba(13,13,13,.55); }
+    h3{ margin:0 0 8px 0; font-size: 1.05rem; font-weight: 900; letter-spacing:.2px; }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px; }
+    .tag{
+      font-size:.82rem;
+      padding:.25rem .55rem;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.03);
+      font-weight: 700;
+      color: rgba(13,13,13,.72);
+    }
+  </style>
+</a>

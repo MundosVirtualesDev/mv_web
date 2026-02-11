@@ -1,98 +1,93 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-import Container from "../../components/ui/Container.astro";
-import Chip from "../../components/ui/Chip.astro";
-import Button from "../../components/ui/Button.astro";
-import ProjectCard from "../../components/cards/ProjectCard.astro";
-
-import { getCollection } from "astro:content";
+import FooterMV from "../../components/home/FooterMV.astro";
+import { projects } from "../../data/projects";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
-  // ✅ slug sin .md
-  return projects.map((p) => ({ params: { slug: p.slug } }));
+  return projects.map(p => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
-const projects = await getCollection("projects");
-
-// ✅ buscar por slug (no id)
-const project = projects.find((p) => p.slug === slug);
+const project = projects.find(p => p.slug === slug);
 if (!project) throw new Error("Proyecto no encontrado");
 
-// ✅ obtener Content desde render()
-const { Content } = await project.render();
-
-const tone = project.data.area === "automatizacion" ? "yellow" : "blue";
-
-// relacionados por tags y área
-const tags = new Set((project.data.tags ?? []).map(t=>t.toLowerCase()));
-const related = projects
-  .filter((p) => p.id !== project.id)
-  .map((p) => {
-    const pt = new Set((p.data.tags ?? []).map(t=>t.toLowerCase()));
-    let inter = 0;
-    tags.forEach((t)=>{ if(pt.has(t)) inter += 1; });
-    const sameArea = p.data.area === project.data.area ? 1 : 0;
-    return { p, score: inter + sameArea };
-  })
-  .sort((a,b)=> b.score - a.score)
-  .slice(0,3)
-  .map(x=>x.p);
+const tone = project.area === "automatizacion" ? "yellow" : "blue";
+const chipBg = tone === "yellow" ? "rgba(254,209,0,.22)" : "rgba(82,116,217,.18)";
 ---
 
-<PageLayout title={`${project.data.title} | Proyectos | Mundos Virtuales`} description={project.data.excerpt} active="projects">
-  <section class="page-hero">
-    <Container>
-      <p class="small">Proyecto</p>
-      <h1 class="h1">{project.data.title}</h1>
-      <p class="p">{project.data.excerpt}</p>
+<PageLayout title={`${project.title} | Proyectos | Mundos Virtuales`}>
+  <section class="hero">
+    <div class="container">
+      <a class="back" href="/proyectos">← Volver a Proyectos</a>
 
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
-        <Chip tone={tone}>{project.data.area === "automatizacion" ? "Automatización" : "Gestión del Efectivo"}</Chip>
-        {(project.data.tags ?? []).slice(0, 6).map((t) => <Chip>{t}</Chip>)}
-      </div>
-
-      <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
-        <Button href="/contacto" variant="primary" tone={tone}>Quiero algo similar</Button>
-        <Button href="/proyectos" variant="secondary">Volver a proyectos</Button>
-      </div>
-    </Container>
-  </section>
-
-  <section class="section compact">
-    <Container>
-      <article class="card" style="overflow:hidden;">
-        <img src={project.data.coverImage.src} alt={project.data.title} />
-      </article>
-    </Container>
-  </section>
-
-  <section class="section compact">
-    <Container>
-      <article class="card" style="padding:18px;">
-        <h2 class="h2">Detalle</h2>
-        <div class="p" style="color: rgba(255,255,255,.84);">
-          {/* ✅ render correcto del markdown */}
-          <Content />
+      <div class="wrap card" data-reveal>
+        <div class="media">
+          <img src={project.cover ?? "/img/projects/placeholder.jpg"} alt={project.title} />
         </div>
-      </article>
-    </Container>
-  </section>
+        <div class="body">
+          <div class="top">
+            <span class="chip" style={`background:${chipBg}; border:1px solid rgba(0,0,0,.08);`}>
+              {project.area === "automatizacion" ? "Automatización" : "Gestión del efectivo"}
+            </span>
+            {project.year && <span class="yr">{project.year}</span>}
+          </div>
 
-  <section class="section">
-    <Container>
-      <h2 class="h2">Proyectos relacionados</h2>
-      <div class="grid g3" style="margin-top:16px;">
-        {related.map((p) => <ProjectCard project={p} />)}
+          <h1>{project.title}</h1>
+          <p class="p">{project.summary}</p>
+
+          {project.bullets && (
+            <ul class="list">
+              {project.bullets.map(b => <li>{b}</li>)}
+            </ul>
+          )}
+
+          <div class="tags">
+            {project.tags.map(t => <span class="tag">{t}</span>)}
+          </div>
+
+          <div class="actions">
+            <a class={"btn " + (tone === "yellow" ? "btn-yellow" : "btn-blue")} href="/#contacto">COTIZAR</a>
+            <a class="btn" href="/#contacto">HABLAR CON UN EXPERTO</a>
+          </div>
+        </div>
       </div>
-    </Container>
-
-    <style>
-      .g3{ grid-template-columns:repeat(3,1fr); }
-      @media (max-width: 980px){
-        .g3{ grid-template-columns: 1fr; }
-      }
-    </style>
+    </div>
   </section>
+
+  <FooterMV />
+
+  <script>
+    import { mountReveal } from "../../scripts/reveal";
+    mountReveal();
+  </script>
+
+  <style>
+    .hero{ padding: 28px 0 40px 0; }
+    .back{ display:inline-block; margin-bottom: 12px; font-weight:900; color: rgba(13,13,13,.7); }
+    .wrap{ overflow:hidden; }
+    .media{ height: min(380px, 44vh); background: rgba(0,0,0,.04); }
+    .media img{ width:100%; height:100%; object-fit: cover; }
+    .body{ padding: 18px; }
+    .top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .yr{ font-weight:900; color: rgba(13,13,13,.55); }
+    h1{
+      margin:0 0 10px 0;
+      font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+      line-height:1.05;
+      letter-spacing:.2px;
+      font-weight: 900;
+    }
+    .list{ margin: 12px 0 0 18px; color: rgba(13,13,13,.78); line-height:1.65; font-weight:700; }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 14px; }
+    .tag{
+      font-size:.82rem;
+      padding:.25rem .55rem;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.03);
+      font-weight: 700;
+      color: rgba(13,13,13,.72);
+    }
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+  </style>
 </PageLayout>
